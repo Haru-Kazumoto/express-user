@@ -3,7 +3,6 @@ const app = express();
 const PORT = 9000;
 
 const {logger} = require('./middleware/log.middleware');
-const e = require('express');
 
 // middleware untuk penerimaan json dari express
 app.use(express.json());
@@ -24,10 +23,13 @@ let users = [
     { id: 3, name: "Octa", age: 17},
 ];
 
+
+// mengambil semua data
 app.get('/users', (request, response) => {
     response.status(200).json(users);
 });
 
+// mengambil data dari id
 app.get('/users/:id',function(request, response) {
 
     const user = users.find(data => data.id === parseInt(request.params.id));
@@ -41,30 +43,33 @@ app.get('/users/:id',function(request, response) {
     }
 });
 
-app.post('/users', (request, response) => {
-    const newUser = {
-        id: users.length + 1,
-        ...request.body
-    };
+// mengambil data dari property name
+app.get('/user/:name', function(request, response) { 
+    const user = users.find(data => data.name === request.params.name);
 
-    users.push(newUser);
-
-    response.status(200).json(newUser);
+    if(user) {
+        response.json(user);
+    } else {
+        response.status(400).json(
+            {
+                pesan: "Data tidak ditemukan"
+            }
+        );
+    }
 });
 
-// app.put('/users/:id', (request, response) => {
-//     const user = users.find(
-//         data => data.id === parseInt(request.params.id)
-//     );
+app.post('/user/post', function(request, response) {
+    // membuat data baru
+    const newData = {
+        id: users.length + 1, 
+        name: request.body.name,
+        age: request.body.age
+    };
 
-//     if(user){
-//         user.name = request.body.name;
-//         user.age = request.body.age;
+    // ambil kumpulan data, lalu kita masukan data baru
+    // atau push newData ke users
+    users.push(newData);
 
-//         response.json(user);
-//     } else {
-//         response.status(404).json({
-//             pesan: "User tidak ditemukan"
-//         });
-//     }
-// })
+    //kembalikan data yang sudah jadi
+    response.status(200).json(newData);
+});
