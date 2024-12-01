@@ -15,7 +15,7 @@ const PORT = 9000;
 // ini di namakan desctructring
 // Dalam konteks destructuring, kurung kurawal digunakan untuk mengekstrak nilai dari objek.
 /**
- * contoh : const orang = {nama: "Naila sipit", umur: 16}
+ * contoh : const orang = {nama: "Naila sipit pake banget", umur: 16}
  * nah saya pengen ambil hanya nama tetapi biasannya kan cara ambilnya itu
  * orang.nama, nah desctructing itu jadi seperti
  * const {nama} = orang <- orang ini sebuah object yang tadi
